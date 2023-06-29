@@ -36,7 +36,6 @@ public class BaseRequests {
 		requestSpecification.contentType(ContentType.JSON);
 		Response response = requestSpecification.put(requestURI);
 		return response;
-
 	}
 
 	public static Response patchRequest(String requestURI, String payload) {
@@ -45,14 +44,11 @@ public class BaseRequests {
 		requestSpecification.contentType(ContentType.JSON);
 		Response response = requestSpecification.patch(requestURI);
 		return response;
-
 	}
 
-	public void patchRequest() {
-
+	public void putRequest() {
 	}
 
 	public void deleteRequest() {
-
 	}
 }

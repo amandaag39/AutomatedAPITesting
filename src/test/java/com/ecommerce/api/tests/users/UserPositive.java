@@ -7,8 +7,6 @@ import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
 import com.ecommerce.api.tests.utility.payload.UserPayloadGenerator;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
