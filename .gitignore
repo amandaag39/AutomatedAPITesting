@@ -13,7 +13,7 @@ target/
 *.ear
 
 # Generated files
-/src/main/resources/application.properties
+/src/test/resources/application.properties
 /logs/
 /generated/
 /node_modules/
