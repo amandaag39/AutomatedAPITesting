@@ -46,9 +46,6 @@ public class BaseRequests {
 		return response;
 	}
 
-	public void putRequest() {
-	}
-
 	public void deleteRequest() {
 	}
 }
