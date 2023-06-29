@@ -56,7 +56,6 @@ public class UserPositive {
 
 	@Test
 	public void createUser() {
-
 		String uri = URICreator.getBaseURI("users/add");
 		String payload = PayloadFromFile.generatePayload("user");
 		Response response = BaseRequests.postRequest(uri, payload)
@@ -71,7 +70,6 @@ public class UserPositive {
 
 	@Test
 	public void createRandomUser() {
-		Logger logger = LogManager.getLogger();
 		String uri = URICreator.getBaseURI("users/add");
 		String payload = UserPayloadGenerator.generatePayload();
 		Response response = BaseRequests.postRequest(uri, payload)
@@ -88,8 +86,6 @@ public class UserPositive {
 
 	@Test
 	public void updateUserWithPut() {
-		Logger logger = LogManager.getLogger();
-
 		String uri = URICreator.getBaseURI("users/" + randomId);
 		String payload = PayloadFromFile.generatePayload("user");
 		Response response = BaseRequests.putRequest(uri, payload)
@@ -104,8 +100,6 @@ public class UserPositive {
 
 	@Test
 	public void updateUserWithPatch() {
-		Logger logger = LogManager.getLogger();
-
 		String uri = URICreator.getBaseURI("users/" + randomId);
 		String payload = UserPayloadGenerator.generatePayload();
 		Response response = BaseRequests.putRequest(uri, payload)
