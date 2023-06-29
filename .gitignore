@@ -1,0 +1,22 @@
+# Maven
+target/
+.idea/
+*.iml
+*.mwb.bak
+
+# Logs
+*.log
+
+# Built artifacts
+*.jar
+*.war
+*.ear
+
+# Generated files
+/src/main/resources/application.properties
+/logs/
+/generated/
+/node_modules/
+
+# IDE-specific files
+/.idea/workspace.xml
