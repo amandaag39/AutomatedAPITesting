@@ -7,6 +7,7 @@ import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
 import com.ecommerce.api.tests.utility.payload.UserPayloadGenerator;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.apache.logging.log4j.LogManager;
 import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -125,7 +126,6 @@ public class UserPositive {
 		String deletedOn = response.jsonPath().getString("deletedOn");
 		LocalDate deletedDate = LocalDate.parse(deletedOn.substring(0, 10));
 		LocalDate currentDate = LocalDate.now();
-
 		Assert.assertEquals(deletedDate, currentDate);
 	}
 }

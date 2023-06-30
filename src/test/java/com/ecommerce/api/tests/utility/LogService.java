@@ -8,6 +8,7 @@ public class LogService {
 	public static void logData(String payload, Response response) {
 		Logger logger = LogManager.getLogger();
 		logger.info("===================");
+		logger.info("Test method: " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		logger.info("Payload: " + payload);
 		logger.info("Response body: " + response.getBody().asString());
 	}
@@ -15,6 +16,7 @@ public class LogService {
 	public static void logData(Response response) {
 		Logger logger = LogManager.getLogger();
 		logger.info("===================");
+		logger.info("Test method: " + Thread.currentThread().getStackTrace()[2].getMethodName());
 		logger.info("Response body: " + response.getBody().asString());
 	}
 }
