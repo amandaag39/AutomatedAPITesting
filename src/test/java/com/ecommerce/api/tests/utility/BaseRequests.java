@@ -46,6 +46,10 @@ public class BaseRequests {
 		return response;
 	}
 
-	public void deleteRequest() {
+	public static Response deleteRequest(String requestURI) {
+		RequestSpecification requestSpecification = RestAssured.given();
+		requestSpecification.contentType(ContentType.JSON);
+		Response response = requestSpecification.delete(requestURI);
+		return response;
 	}
 }

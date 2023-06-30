@@ -7,11 +7,14 @@ import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
 import com.ecommerce.api.tests.utility.payload.UserPayloadGenerator;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.hamcrest.Matchers;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 public class UserPositive {
 	private static int limit;
@@ -99,7 +102,7 @@ public class UserPositive {
 	public void updateUserWithPatch() {
 		String uri = URICreator.getBaseURI("users/" + randomId);
 		String payload = UserPayloadGenerator.generatePayload();
-		Response response = BaseRequests.putRequest(uri, payload)
+		Response response = BaseRequests.patchRequest(uri, payload)
 				.then().assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
@@ -107,5 +110,22 @@ public class UserPositive {
 				.extract().response();
 
 		LogService.logData(payload, response);
+	}
+
+	@Test
+	public void deleteUser() {
+		String uri = URICreator.getBaseURI("users/" + randomId);
+		Response response  = BaseRequests.deleteRequest(uri)
+				.then().assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("isDeleted", Matchers.equalTo(true))
+				.extract().response();
+
+		String deletedOn = response.jsonPath().getString("deletedOn");
+		LocalDate deletedDate = LocalDate.parse(deletedOn.substring(0, 10));
+		LocalDate currentDate = LocalDate.now();
+
+		Assert.assertEquals(deletedDate, currentDate);
 	}
 }
