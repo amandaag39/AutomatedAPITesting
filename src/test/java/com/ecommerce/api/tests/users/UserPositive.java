@@ -49,7 +49,6 @@ public class UserPositive {
 				.extract().response();
 
 		LogService.logData(response);
-
 	}
 
 	@Test
