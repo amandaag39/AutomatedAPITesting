@@ -7,7 +7,6 @@ import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
 import com.ecommerce.api.tests.utility.payload.UserPayloadGenerator;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.apache.logging.log4j.LogManager;
 import org.hamcrest.Matchers;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -33,7 +32,7 @@ public class UserPositive {
 				.then()
 				.assertThat()
 				.statusCode(200)
-				.contentType(ContentType.JSON)
+				.contentType(ContentType.JSON).and()
 				.body("users.size()", equalTo(limit));
 	}
 
@@ -43,12 +42,12 @@ public class UserPositive {
 		Response response = BaseRequests.getByIdRequest(uri)
 				.then()
 				.assertThat()
-				.statusCode(200)
-				.contentType(ContentType.JSON)
-				.body("id", equalTo(randomId))
-				.body("id", notNullValue())
-				.body("firstName", notNullValue())
-				.body("lastName", notNullValue())
+				.statusCode(200).and()
+				.contentType(ContentType.JSON).and()
+				.body("id", equalTo(randomId)).and()
+				.body("id", notNullValue()).and()
+				.body("firstName", notNullValue()).and()
+				.body("lastName", notNullValue()).and()
 				.body("email", notNullValue())
 				.extract().response();
 
@@ -62,7 +61,7 @@ public class UserPositive {
 		Response response = BaseRequests.postRequest(uri, payload)
 				.then()
 				.assertThat()
-				.statusCode(200)
+				.statusCode(200).and()
 				.body(containsString(payload.substring(1)))
 				.extract().response();
 
@@ -76,8 +75,8 @@ public class UserPositive {
 		Response response = BaseRequests.postRequest(uri, payload)
 				.then()
 				.assertThat()
-				.statusCode(200)
-				.contentType(ContentType.JSON)
+				.statusCode(200).and()
+				.contentType(ContentType.JSON).and()
 				.body(containsString(payload.substring(1,
 								payload.length()-1)))
 				.extract().response();
@@ -91,8 +90,8 @@ public class UserPositive {
 		String payload = PayloadFromFile.generatePayload("user");
 		Response response = BaseRequests.putRequest(uri, payload)
 				.then().assertThat()
-				.statusCode(200)
-				.contentType(ContentType.JSON)
+				.statusCode(200).and()
+				.contentType(ContentType.JSON).and()
 				.body(containsString(payload.substring(1)))
 				.extract().response();
 
