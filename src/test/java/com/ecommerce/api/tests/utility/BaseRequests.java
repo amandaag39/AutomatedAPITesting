@@ -10,14 +10,12 @@ public class BaseRequests {
 	public static Response getAllRequest(String requestURI, int limit) {
 		RequestSpecification requestSpecification = RestAssured.given()
 				.param("limit", limit);
-		requestSpecification.contentType(ContentType.JSON);
 		Response response = requestSpecification.get(requestURI);
 		return response;
 	}
 
 	public static Response getByIdRequest(String requestURI) {
 		RequestSpecification requestSpecification = RestAssured.given();
-		requestSpecification.contentType(ContentType.JSON);
 		Response response = requestSpecification.get(requestURI);
 		return response;
 	}
@@ -48,7 +46,6 @@ public class BaseRequests {
 
 	public static Response deleteRequest(String requestURI) {
 		RequestSpecification requestSpecification = RestAssured.given();
-		requestSpecification.contentType(ContentType.JSON);
 		Response response = requestSpecification.delete(requestURI);
 		return response;
 	}

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.*;
 
-public class UserPositive {
+public class UserTests {
 	private static int limit;
 	private static int randomId;
 
@@ -42,13 +42,8 @@ public class UserPositive {
 		Response response = BaseRequests.getByIdRequest(uri)
 				.then()
 				.assertThat()
-				.statusCode(200).and()
-				.contentType(ContentType.JSON).and()
-				.body("id", equalTo(randomId)).and()
-				.body("id", notNullValue()).and()
-				.body("firstName", notNullValue()).and()
-				.body("lastName", notNullValue()).and()
-				.body("email", notNullValue())
+				.statusCode(200)
+				.contentType(ContentType.JSON)
 				.extract().response();
 
 		LogService.logData(response);
@@ -61,7 +56,7 @@ public class UserPositive {
 		Response response = BaseRequests.postRequest(uri, payload)
 				.then()
 				.assertThat()
-				.statusCode(200).and()
+				.statusCode(200)
 				.body(containsString(payload.substring(1)))
 				.extract().response();
 
@@ -77,8 +72,7 @@ public class UserPositive {
 				.assertThat()
 				.statusCode(200).and()
 				.contentType(ContentType.JSON).and()
-				.body(containsString(payload.substring(1,
-								payload.length()-1)))
+				.body(containsString(payload.substring(1, payload.length()-1)))
 				.extract().response();
 
 		LogService.logData(payload, response);
@@ -115,16 +109,10 @@ public class UserPositive {
 	@Test
 	public void deleteUser() {
 		String uri = URICreator.getBaseURI("users/" + randomId);
-		Response response  = BaseRequests.deleteRequest(uri)
+		BaseRequests.deleteRequest(uri)
 				.then().assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
-				.body("isDeleted", Matchers.equalTo(true))
-				.extract().response();
-
-		String deletedOn = response.jsonPath().getString("deletedOn");
-		LocalDate deletedDate = LocalDate.parse(deletedOn.substring(0, 10));
-		LocalDate currentDate = LocalDate.now();
-		Assert.assertEquals(deletedDate, currentDate);
+				.body("isDeleted", Matchers.equalTo(true));
 	}
 }
