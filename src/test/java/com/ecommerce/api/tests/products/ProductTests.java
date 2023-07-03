@@ -28,6 +28,7 @@ public class ProductTests {
 		limit = ProductTestConstants.LIMIT;
 		skip = ProductTestConstants.SKIP;
 	}
+
 	@Test
 	public void getAllProductsTest() {
 		String uri = URICreator.getBaseURI("products");
@@ -60,6 +61,10 @@ public class ProductTests {
 				.assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
+				.body("id", equalTo(randomId))
+				.body("title", Matchers.notNullValue())
+				.body("description", Matchers.notNullValue())
+				.body("price", Matchers.notNullValue())
 				.extract().response();
 
 		LogService.logData(response);
@@ -73,7 +78,7 @@ public class ProductTests {
 				.assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
-				.body(Matchers.containsString("laptop"))
+				.body(Matchers.containsString(keyword))
 				.body("products.size()", greaterThan(0))
 				.extract().response();
 
