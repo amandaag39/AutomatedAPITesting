@@ -53,6 +53,19 @@ public class ProductTests {
 	}
 
 	@Test
+	public void getProductByIdTest() {
+		String uri = URICreator.getBaseURI("products/" + randomId);
+		Response response = BaseRequests.getByIdRequest(uri)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.extract().response();
+
+		LogService.logData(response);
+	}
+
+	@Test
 	public void getProductByKeywordTest() {
 		String uri = URICreator.getBaseURI("products/search");
 		Response response = BaseRequests.getByKeyword(uri, keyword)
