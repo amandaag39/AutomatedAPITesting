@@ -18,11 +18,16 @@ public class ProductTests {
 	private static int total;
 	private static int randomId;
 	private static String keyword;
+	private static int limit;
+	private static int skip;
+
 
 	static {
 		total = ProductTestConstants.TOTAL;
 		randomId = (int) (Math.random() * total) + 1;
 		keyword = "laptop";
+		limit = ProductTestConstants.LIMIT;
+		skip = ProductTestConstants.SKIP;
 	}
 	@Test
 	public void getAllProductsTest() {
@@ -33,6 +38,19 @@ public class ProductTests {
 				.statusCode(200)
 				.contentType(ContentType.JSON)
 				.body("products.size()", equalTo(total));
+	}
+
+	@Test
+	public void getAllProductsPaginationTest() {
+		String uri = URICreator.getBaseURI("products");
+		BaseRequests.getAllWithPaginationRequest(uri, limit, skip)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("products.size()", equalTo(limit))
+				.body("skip", equalTo(skip))
+				.body("products[0].id", equalTo(skip + 1));
 	}
 
 	@Test

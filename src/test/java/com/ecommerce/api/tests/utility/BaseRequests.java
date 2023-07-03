@@ -14,6 +14,14 @@ public class BaseRequests {
 		return response;
 	}
 
+	public static Response getAllWithPaginationRequest(String requestURI, int limit, int skip) {
+		RequestSpecification requestSpecification = RestAssured.given()
+				.param("limit", limit)
+				.param("skip", skip);
+		Response response = requestSpecification.get(requestURI);
+		return response;
+	}
+
 	public static Response getByIdRequest(String requestURI) {
 		RequestSpecification requestSpecification = RestAssured.given();
 		Response response = requestSpecification.get(requestURI);
