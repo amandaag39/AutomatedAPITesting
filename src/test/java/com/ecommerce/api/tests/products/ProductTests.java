@@ -2,22 +2,30 @@ package com.ecommerce.api.tests.products;
 
 import com.ecommerce.api.tests.users.UserTestConstants;
 import com.ecommerce.api.tests.utility.BaseRequests;
+import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.greaterThan;
 
 public class ProductTests {
 	private static int limit;
 	private static int randomId;
+	private static String keyword;
 
 	static {
 		limit = ProductTestConstants.LIMIT;
 		randomId = (int) (Math.random() * limit) + 1;
+		keyword = "laptop";
 	}
 	@Test
-	public void getAllProducts() {
+	public void getAllProductsTest() {
 		String uri = URICreator.getBaseURI("products");
 		BaseRequests.getAllRequest(uri, limit)
 				.then()
@@ -25,5 +33,20 @@ public class ProductTests {
 				.statusCode(200)
 				.contentType(ContentType.JSON)
 				.body("products.size()", equalTo(limit));
+	}
+
+	@Test
+	public void getProductByKeywordTest() {
+		String uri = URICreator.getBaseURI("products/search");
+		Response response = BaseRequests.getByKeyword(uri, keyword)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("products.category", everyItem(containsStringIgnoringCase(keyword)))
+				.body("products.size()", greaterThan(0))
+				.extract().response();
+
+		LogService.logData(response);
 	}
 }

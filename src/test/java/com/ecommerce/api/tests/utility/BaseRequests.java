@@ -20,6 +20,13 @@ public class BaseRequests {
 		return response;
 	}
 
+	public static Response getByKeyword(String requestURI, String keyword) {
+		RequestSpecification requestSpecification = RestAssured.given()
+				.param("q", keyword);
+		Response response = requestSpecification.get(requestURI);
+		return response;
+	}
+
 	public static Response postRequest(String requestURI, String payload) {
 		RequestSpecification requestSpecification = RestAssured.given()
 				.body(payload);
