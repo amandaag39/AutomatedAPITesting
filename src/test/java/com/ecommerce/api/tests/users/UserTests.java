@@ -17,23 +17,23 @@ import static org.hamcrest.Matchers.*;
 
 
 public class UserTests {
-	private static int limit;
+	private static int total;
 	private static int randomId;
 
 	static {
-		limit = UserTestConstants.LIMIT;
-		randomId = (int) (Math.random() * limit) + 1;
+		total = UserTestConstants.TOTAL;
+		randomId = (int) (Math.random() * total) + 1;
 	}
 
 	@Test
 	public void getAllUsersTest() {
 		String uri = URICreator.getBaseURI("users");
-		BaseRequests.getAllRequest(uri, limit)
+		BaseRequests.getAllRequest(uri, total)
 				.then()
 				.assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON).and()
-				.body("users.size()", equalTo(limit));
+				.body("users.size()", equalTo(total));
 	}
 
 	@Test

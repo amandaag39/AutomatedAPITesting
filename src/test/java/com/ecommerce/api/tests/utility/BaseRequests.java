@@ -9,7 +9,7 @@ public class BaseRequests {
 
 	public static Response getAllRequest(String requestURI, int limit) {
 		RequestSpecification requestSpecification = RestAssured.given()
-				.param("limit", limit);
+				.param("limit", 0);
 		Response response = requestSpecification.get(requestURI);
 		return response;
 	}

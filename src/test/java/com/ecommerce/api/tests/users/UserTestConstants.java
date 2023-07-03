@@ -1,5 +1,5 @@
 package com.ecommerce.api.tests.users;
 
 public class UserTestConstants {
-	public static final int LIMIT = 100;
+	public static final int TOTAL = 100;
 }

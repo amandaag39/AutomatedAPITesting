@@ -15,24 +15,24 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.greaterThan;
 
 public class ProductTests {
-	private static int limit;
+	private static int total;
 	private static int randomId;
 	private static String keyword;
 
 	static {
-		limit = ProductTestConstants.LIMIT;
-		randomId = (int) (Math.random() * limit) + 1;
+		total = ProductTestConstants.TOTAL;
+		randomId = (int) (Math.random() * total) + 1;
 		keyword = "laptop";
 	}
 	@Test
 	public void getAllProductsTest() {
 		String uri = URICreator.getBaseURI("products");
-		BaseRequests.getAllRequest(uri, limit)
+		BaseRequests.getAllRequest(uri, total)
 				.then()
 				.assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
-				.body("products.size()", equalTo(limit));
+				.body("products.size()", equalTo(total));
 	}
 
 	@Test
