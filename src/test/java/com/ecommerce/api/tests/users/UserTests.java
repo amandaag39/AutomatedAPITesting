@@ -9,6 +9,7 @@ import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
+import org.json.JSONObject;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -44,6 +45,9 @@ public class UserTests {
 				.assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
+				.body("id", equalTo(randomId))
+				.body("$", Matchers.hasKey("firstName"))
+				.body("$", Matchers.hasKey("lastName"))
 				.extract().response();
 
 		LogService.logData(response);
@@ -81,7 +85,9 @@ public class UserTests {
 	@Test
 	public void updateUserWithPutTest() {
 		String uri = URICreator.getBaseURI("users/" + randomId);
+
 		String payload = PayloadFromFile.generatePayload("user");
+
 		Response response = BaseRequests.putRequest(uri, payload)
 				.then().assertThat()
 				.statusCode(200).and()
@@ -95,12 +101,16 @@ public class UserTests {
 	@Test
 	public void updateUserWithPatchTest() {
 		String uri = URICreator.getBaseURI("users/" + randomId);
-
 		String payload = UserPayloadGenerator.generatePartialPayload();
+		JSONObject payloadJson = new JSONObject(payload);
+
 		Response response = BaseRequests.patchRequest(uri, payload)
 				.then().assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
+				.body("firstName", equalTo(payloadJson.getString("firstName")))
+				.body("lastName", equalTo(payloadJson.getString("lastName")))
+				.body("email", equalTo(payloadJson.getString("email")))
 				.extract().response();
 
 		LogService.logData(payload, response);
