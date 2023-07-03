@@ -28,4 +28,22 @@ public class UserPayloadGenerator {
 		}
 		return null;
 	}
+
+	public static String generatePartialPayload() {
+		Faker faker = new Faker();
+		String firstName = faker.name().firstName();
+		String lastName = faker.name().lastName();
+		String email = faker.internet().emailAddress();
+
+		User user = new User(firstName, lastName, email);
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		try {
+			String userJSON = objectMapper.writeValueAsString(user);
+			return userJSON;
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

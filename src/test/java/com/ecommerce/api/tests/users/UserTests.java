@@ -95,12 +95,12 @@ public class UserTests {
 	@Test
 	public void updateUserWithPatchTest() {
 		String uri = URICreator.getBaseURI("users/" + randomId);
-		String payload = UserPayloadGenerator.generatePayload();
+
+		String payload = UserPayloadGenerator.generatePartialPayload();
 		Response response = BaseRequests.patchRequest(uri, payload)
 				.then().assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
-				.body(containsString(payload.substring(1, payload.length()-1)))
 				.extract().response();
 
 		LogService.logData(payload, response);

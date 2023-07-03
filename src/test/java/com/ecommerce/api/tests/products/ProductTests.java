@@ -21,7 +21,6 @@ public class ProductTests {
 	private static int limit;
 	private static int skip;
 
-
 	static {
 		total = ProductTestConstants.TOTAL;
 		randomId = (int) (Math.random() * total) + 1;
