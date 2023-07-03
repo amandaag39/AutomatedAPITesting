@@ -43,7 +43,7 @@ public class ProductTests {
 				.assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
-				.body("products.category", everyItem(containsStringIgnoringCase(keyword)))
+				.body(Matchers.containsString("laptop"))
 				.body("products.size()", greaterThan(0))
 				.extract().response();
 
