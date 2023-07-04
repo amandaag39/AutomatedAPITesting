@@ -21,7 +21,7 @@ public class ProductTests {
 	static {
 		total = ProductTestConstants.TOTAL;
 		randomId = (int) (Math.random() * total) + 1;
-		keyword = "laptop";
+		keyword = ProductTestConstants.KEYWORD;
 		limit = ProductTestConstants.LIMIT;
 		skip = ProductTestConstants.SKIP;
 	}

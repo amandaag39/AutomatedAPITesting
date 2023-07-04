@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import pojo.User;
 
-
 public class UserPayloadGenerator {
 	private static User user;
 	public static String generatePayload() {
