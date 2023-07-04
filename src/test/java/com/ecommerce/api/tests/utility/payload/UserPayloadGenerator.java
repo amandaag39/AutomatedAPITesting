@@ -7,17 +7,19 @@ import pojo.User;
 
 
 public class UserPayloadGenerator {
+	private static User user;
 	public static String generatePayload() {
 		Faker faker = new Faker();
-		String firstName = faker.name().firstName();
-		String lastName = faker.name().lastName();
-		String maidenName = faker.name().lastName();
-		int age = faker.number().numberBetween(18, 99);
-		String gender = faker.demographic().sex();
-		String email = faker.internet().emailAddress();
-		String phone = faker.phoneNumber().cellPhone();
+		User user = User.builder()
+				.firstName(faker.name().firstName())
+				.lastName(faker.name().lastName())
+				.maidenName(faker.name().lastName())
+				.age(faker.number().numberBetween(18, 99))
+				.gender(faker.demographic().sex())
+				.email(faker.internet().emailAddress())
+				.phone(faker.phoneNumber().cellPhone())
+				.build();
 
-		User user = new User(firstName, lastName, maidenName, age, gender, email, phone);
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		try {
@@ -31,13 +33,13 @@ public class UserPayloadGenerator {
 
 	public static String generatePartialPayload() {
 		Faker faker = new Faker();
-		String firstName = faker.name().firstName();
-		String lastName = faker.name().lastName();
-		String email = faker.internet().emailAddress();
+		User user = User.builder()
+				.firstName(faker.name().firstName())
+				.lastName(faker.name().lastName())
+				.email(faker.internet().emailAddress())
+				.build();
 
-		User user = new User(firstName, lastName, email);
 		ObjectMapper objectMapper = new ObjectMapper();
-
 		try {
 			String userJSON = objectMapper.writeValueAsString(user);
 			return userJSON;

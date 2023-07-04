@@ -85,9 +85,7 @@ public class UserTests {
 	@Test
 	public void updateUserWithPutTest() {
 		String uri = URICreator.getBaseURI("users/" + randomId);
-
 		String payload = PayloadFromFile.generatePayload("user");
-
 		Response response = BaseRequests.putRequest(uri, payload)
 				.then().assertThat()
 				.statusCode(200).and()
