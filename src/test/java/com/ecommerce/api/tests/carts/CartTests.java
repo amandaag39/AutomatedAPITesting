@@ -1,20 +1,17 @@
 package com.ecommerce.api.tests.carts;
 
-import com.ecommerce.api.tests.users.UserTestConstants;
-import com.ecommerce.api.tests.users.UserTests;
 import com.ecommerce.api.tests.utility.BaseRequests;
 import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
 import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
 import io.restassured.http.ContentType;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
-import java.io.File;
-import java.io.IOException;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 
@@ -22,10 +19,12 @@ public class CartTests {
 
     private static int total;
     private static int randomId;
+    private static int limit;
 
     static {
         total = CartTestConstants.TOTAL;
         randomId = (int) (Math.random() * total) + 1;
+        limit = CartTestConstants.LIMIT;
     }
 
     @Test
@@ -45,6 +44,25 @@ public class CartTests {
         LogService.logData(payload, response);
     }
 
+    // Great! Now let's make our test reusable and ready to work with any test data
+    @Test
+    public void createCartTestReusable() {
+
+        String uri = URICreator.getBaseURI("carts/add");
+        String payload = PayloadFromFile.generatePayload("cart");
+        JSONObject payloadJson = new JSONObject(payload);
+
+        Response response = BaseRequests.postRequest(uri, payload)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("id", equalTo(limit + 1))
+                .body("userId", equalTo(payloadJson.getInt("userId")))
+                .extract().response();
+
+        LogService.logData(payload, response);
+    }
 
     @Test
     public void getAllCartsTest() {
@@ -126,5 +144,4 @@ public class CartTests {
                 .contentType(ContentType.JSON)
                 .body("isDeleted", equalTo(true));
     }
-
 }
