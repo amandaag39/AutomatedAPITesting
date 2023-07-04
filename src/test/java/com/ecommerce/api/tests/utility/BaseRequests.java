@@ -35,6 +35,14 @@ public class BaseRequests {
 		return response;
 	}
 
+	public static Response getFiltered(String requestURI, String key, String value) {
+		RequestSpecification requestSpecification = RestAssured.given()
+				.param("key", key)
+				.param("value", value);
+		Response response = requestSpecification.get(requestURI);
+		return response;
+	}
+
 	public static Response postRequest(String requestURI, String payload) {
 		RequestSpecification requestSpecification = RestAssured.given()
 				.body(payload);

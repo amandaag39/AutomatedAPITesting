@@ -1,6 +1,5 @@
 package com.ecommerce.api.tests.products;
 
-import com.ecommerce.api.tests.users.UserTestConstants;
 import com.ecommerce.api.tests.utility.BaseRequests;
 import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
@@ -8,8 +7,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.greaterThan;

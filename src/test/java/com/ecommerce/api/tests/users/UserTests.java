@@ -20,37 +20,16 @@ import static org.hamcrest.Matchers.*;
 public class UserTests {
 	private static int total;
 	private static int randomId;
+	private static String keyword;
+	private static String key;
+	private static String value;
 
 	static {
 		total = UserTestConstants.TOTAL;
 		randomId = (int) (Math.random() * total) + 1;
-	}
-
-	@Test
-	public void getAllUsersTest() {
-		String uri = URICreator.getBaseURI("users");
-		BaseRequests.getAllRequest(uri, total)
-				.then()
-				.assertThat()
-				.statusCode(200)
-				.contentType(ContentType.JSON).and()
-				.body("users.size()", equalTo(total));
-	}
-
-	@Test
-	public void getUserByIdTest() {
-		String uri = URICreator.getBaseURI("users/" + randomId);
-		Response response = BaseRequests.getByIdRequest(uri)
-				.then()
-				.assertThat()
-				.statusCode(200)
-				.contentType(ContentType.JSON)
-				.body("id", equalTo(randomId))
-				.body("$", Matchers.hasKey("firstName"))
-				.body("$", Matchers.hasKey("lastName"))
-				.extract().response();
-
-		LogService.logData(response);
+		keyword = UserTestConstants.KEYWORD;
+		key = UserTestConstants.KEY;
+		value = UserTestConstants.VALUE;
 	}
 
 	@Test
@@ -80,6 +59,74 @@ public class UserTests {
 				.extract().response();
 
 		LogService.logData(payload, response);
+	}
+
+	@Test
+	public void getAllUsersTest() {
+		String uri = URICreator.getBaseURI("users");
+		BaseRequests.getAllRequest(uri, total)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON).and()
+				.body("users.size()", equalTo(total));
+	}
+
+	@Test
+	public void getUserByIdTest() {
+		String uri = URICreator.getBaseURI("users/" + randomId);
+		Response response = BaseRequests.getByIdRequest(uri)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("id", equalTo(randomId))
+				.body("$", Matchers.hasKey("firstName"))
+				.body("$", Matchers.hasKey("lastName"))
+				.extract().response();
+
+		LogService.logData(response);
+	}
+	@Test
+	public void getUserByKeywordTest() {
+		String uri = URICreator.getBaseURI("users/search");
+		Response response = BaseRequests.getByKeyword(uri, keyword)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body(Matchers.containsString(keyword))
+				.body("users.size()", greaterThan(0))
+				.extract().response();
+
+		LogService.logData(response);
+	}
+
+	@Test
+	public void getFilteredUsersTest() {
+		String uri = URICreator.getBaseURI("users/filter");
+		Response response = BaseRequests.getFiltered(uri, key, value)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.body("users." + key, everyItem(equalTo(value)))
+				.extract().response();
+
+		LogService.logData(response);
+	}
+
+
+	@Test
+	public void getNonExistingUserTest() {
+		int userId = total + 1;
+		String uri = URICreator.getBaseURI("users/" + userId);
+		BaseRequests.getByIdRequest(uri)
+				.then()
+				.assertThat()
+				.statusCode(404)
+				.contentType(ContentType.JSON)
+				.body("message", containsString("User with id '" + userId + "' not found"));
 	}
 
 	@Test
