@@ -4,12 +4,8 @@ import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
 import com.ecommerce.api.tests.utility.payload.AuthDataBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.hamcrest.Matchers;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.concurrent.CountDownLatch;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -32,23 +28,21 @@ public class AuthenticationTests {
 				.body("token", is(notNullValue()))
 				.extract()
 				.path("token").toString();
-
-		System.out.println(token);
 	}
 
 	@Test(priority = 2, dependsOnMethods = "getTokenValidCredsTest")
 	public static void getResourceWithToken()  {
 		String uri = URICreator.getBaseURI("auth/carts");
-				given()
+		given()
 				.header("Authorization", "Bearer " + token)
 				.contentType(ContentType.JSON)
 				.when()
 				.get(uri)
 				.then()
-						.assertThat()
-						.contentType(ContentType.JSON)
-						.statusCode(200)
-						.body("carts", Matchers.notNullValue());
+				.assertThat()
+				.contentType(ContentType.JSON)
+				.statusCode(200)
+				.body("carts", Matchers.notNullValue());
 	}
 
 	@Test
