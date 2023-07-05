@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.*;
 public class AuthenticationTests {
 	private static String token;
 	@Test(priority = 1)
-    public static void getTokenValidCredsTest(){
+    public static void getTokenValidCredsTest() {
 		String uri = URICreator.getBaseURI("auth/login");
 		token = given()
 				.body(AuthDataBuilder.validAuthData())
