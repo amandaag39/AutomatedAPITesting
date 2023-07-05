@@ -4,7 +4,7 @@ import com.ecommerce.api.tests.utility.BaseRequests;
 import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
 import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
-import com.ecommerce.api.tests.utility.payload.UserPayloadGenerator;
+import com.ecommerce.api.tests.utility.payload.UserPayloadBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
@@ -49,7 +49,7 @@ public class UserTests {
 	@Test
 	public void createRandomUserTest() {
 		String uri = URICreator.getBaseURI("users/add");
-		String payload = UserPayloadGenerator.generatePayload();
+		String payload = UserPayloadBuilder.generatePayload();
 		Response response = BaseRequests.postRequest(uri, payload)
 				.then()
 				.assertThat()
@@ -146,7 +146,7 @@ public class UserTests {
 	@Test
 	public void updateUserWithPatchTest() {
 		String uri = URICreator.getBaseURI("users/" + randomId);
-		String payload = UserPayloadGenerator.generatePartialPayload();
+		String payload = UserPayloadBuilder.generatePartialPayload();
 		JSONObject payloadJson = new JSONObject(payload);
 
 		Response response = BaseRequests.patchRequest(uri, payload)

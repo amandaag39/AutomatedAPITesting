@@ -43,7 +43,7 @@ public class CartTests {
         LogService.logData(payload, response);
     }
 
-    // Great! Now let's make our test reusable and ready to work with any test data
+    // Great! Now let's make our test reusable and ready to work with any test data.
     @Test
     public void createCartTestReusable() {
 
