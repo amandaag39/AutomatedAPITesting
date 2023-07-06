@@ -1,9 +1,8 @@
 package com.ecommerce.api.tests.authentification;
-
-import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
 import com.ecommerce.api.tests.utility.payload.AuthDataBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
@@ -45,10 +44,45 @@ public class AuthenticationTests {
 				.body("carts", Matchers.notNullValue());
 	}
 
-	@Test
-	public static void getTokenInvalidCredsTest(){}
+	@Test(priority = 2, dependsOnMethods = "getTokenValidCredsTest")
+	public static void getResourceWithEmptyToken() {
+		String uri = URICreator.getBaseURI("auth/carts");
+		given()
+				.header("Authorization", "")
+				.contentType(ContentType.JSON)
+				.when()
+				.get(uri)
+				.then()
+				.assertThat()
+				.contentType(ContentType.JSON)
+				.statusCode(403)
+				.body("message", equalToIgnoringCase("Authentication Problem"));
+	}
 
 	@Test
-	public static void getTokenEmptyPayloadTest(){}
+	public static void getTokenInvalidCredsTest() {
+		String uri = URICreator.getBaseURI("auth/login");
+		given()
+				.body(AuthDataBuilder.invalidAuthData())
+				.contentType(ContentType.JSON)
+				.when()
+				.post(uri)
+				.then()
+				.assertThat()
+				.statusCode(400)
+				.body("message", containsString("Invalid credentials"));
+	}
 
+	@Test
+	public static void getTokenEmptyPayloadTest() {
+		String uri = URICreator.getBaseURI("auth/login");
+		given()
+				.body(AuthDataBuilder.emptyPayloadAuthData())
+				.contentType(ContentType.JSON)
+				.when()
+				.post(uri)
+				.then()
+				.assertThat()
+				.statusCode(400)
+				.body("message", containsString("Invalid credentials"));}
 }
