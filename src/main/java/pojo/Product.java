@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 @Builder
 public class Product {
-    private int id;
     private String title;
     private String description;
     private double price;

@@ -12,16 +12,15 @@ public class ProductPayloadBuilder {
     public static String generatePayload() {
         Faker faker = new Faker();
         Product product = Product.builder()
-                .id(faker.number().numberBetween(1, 1000))
                 .title(faker.commerce().productName())
+                .description(faker.lorem().sentence())
                 .price(faker.number().randomDouble(2,1,1000))
                 .discountPercentage(faker.number().randomDouble(2, 0, 50))
-                .stock(faker.number().randomDigit())
                 .rating(faker.number().randomDouble(2,1,5))
-                .thumbnail(faker.internet().url())
-                .description(faker.lorem().sentence())
+                .stock(faker.number().randomDigit())
                 .brand(faker.company().name())
                 .category(faker.commerce().department())
+                .thumbnail(faker.internet().url())
                 .images(null)
                 .build();
 
@@ -36,12 +35,13 @@ public class ProductPayloadBuilder {
         return null;
     }
 
+
     public static String generatePartialPayload() {
         Faker faker = new Faker();
         Product product = Product.builder()
                 .title(faker.commerce().productName())
-                .price(faker.number().randomDouble(2,1,1000))
                 .description(faker.lorem().sentence())
+                .price(faker.number().randomDouble(2,1,1000))
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();

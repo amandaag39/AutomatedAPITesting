@@ -4,9 +4,11 @@ import com.ecommerce.api.tests.utility.BaseRequests;
 import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
 import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
+import com.ecommerce.api.tests.utility.payload.ProductPayloadBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
+import org.json.JSONObject;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -103,11 +105,13 @@ public class ProductTests {
 	public void updateProductWithPutTest() {
 		String uri = URICreator.getBaseURI("products/" + randomId);
 		String payload = PayloadFromFile.generatePayload("updateProduct");
+		JSONObject payloadJson = new JSONObject(payload);
 
 		Response response = BaseRequests.putRequest(uri, payload)
 				.then().assertThat()
 				.statusCode(200)
 				.contentType(ContentType.JSON)
+				.body("title", equalTo(payloadJson.getString("title")))
 				.extract().response();
 
 		LogService.logData(payload, response);

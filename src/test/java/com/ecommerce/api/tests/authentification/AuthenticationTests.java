@@ -2,7 +2,6 @@ package com.ecommerce.api.tests.authentification;
 import com.ecommerce.api.tests.utility.URICreator;
 import com.ecommerce.api.tests.utility.payload.AuthDataBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 

@@ -9,7 +9,8 @@ import java.nio.charset.StandardCharsets;
 public class PayloadFromFile {
 	public static String generatePayload(String resource) {
 		String filePath =
-				System.getProperty("user.dir") + "/src/test/resources/json/" + resource + ".json";
+				System.getProperty("user.dir") + "/src/test/resources/payloadjson/" + resource +
+						".json";
 		try {
 			File file = new File(filePath);
 			return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
