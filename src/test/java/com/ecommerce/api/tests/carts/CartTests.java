@@ -31,24 +31,6 @@ public class CartTests {
 
         String uri = URICreator.getBaseURI("carts/add");
         String payload = PayloadFromFile.generatePayload("cart");
-
-        Response response = BaseRequests.postRequest(uri, payload)
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("id", equalTo(21))
-                .extract().response();
-
-        LogService.logData(payload, response);
-    }
-
-    // Great! Now let's make our test reusable and ready to work with any test data.
-    @Test
-    public void createCartTestReusable() {
-
-        String uri = URICreator.getBaseURI("carts/add");
-        String payload = PayloadFromFile.generatePayload("cart");
         JSONObject payloadJson = new JSONObject(payload);
 
         Response response = BaseRequests.postRequest(uri, payload)

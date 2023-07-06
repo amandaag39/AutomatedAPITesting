@@ -45,7 +45,7 @@ public class AuthenticationTests {
 	}
 
 	@Test(priority = 2, dependsOnMethods = "getTokenValidCredsTest")
-	public static void getResourceWithEmptyToken()  {
+	public static void getResourceWithEmptyToken() {
 		String uri = URICreator.getBaseURI("auth/carts");
 		given()
 				.header("Authorization", "")
@@ -60,7 +60,7 @@ public class AuthenticationTests {
 	}
 
 	@Test
-	public static void getTokenInvalidCredsTest(){
+	public static void getTokenInvalidCredsTest() {
 		String uri = URICreator.getBaseURI("auth/login");
 		given()
 				.body(AuthDataBuilder.invalidAuthData())
@@ -74,7 +74,8 @@ public class AuthenticationTests {
 	}
 
 	@Test
-	public static void getTokenEmptyPayloadTest(){	String uri = URICreator.getBaseURI("auth/login");
+	public static void getTokenEmptyPayloadTest() {
+		String uri = URICreator.getBaseURI("auth/login");
 		given()
 				.body(AuthDataBuilder.emptyPayloadAuthData())
 				.contentType(ContentType.JSON)
