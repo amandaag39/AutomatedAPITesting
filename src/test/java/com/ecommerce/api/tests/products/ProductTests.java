@@ -3,12 +3,14 @@ package com.ecommerce.api.tests.products;
 import com.ecommerce.api.tests.utility.BaseRequests;
 import com.ecommerce.api.tests.utility.LogService;
 import com.ecommerce.api.tests.utility.URICreator;
+import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 
 public class ProductTests {
@@ -25,6 +27,21 @@ public class ProductTests {
 		limit = ProductTestConstants.LIMIT;
 		skip = ProductTestConstants.SKIP;
 	}
+
+	@Test
+	public void createProductTest() {
+		String uri = URICreator.getBaseURI("products/add");
+		String payload = PayloadFromFile.generatePayload("product");
+		Response response = BaseRequests.postRequest(uri, payload)
+				.then()
+				.assertThat()
+				.statusCode(200)
+				.body(containsString(payload.substring(1)))
+				.extract().response();
+
+		LogService.logData(payload, response);
+	}
+
 
 	@Test
 	public void getAllProductsTest() {
@@ -81,4 +98,33 @@ public class ProductTests {
 
 		LogService.logData(response);
 	}
+
+	@Test
+	public void updateProductWithPutTest() {
+		String uri = URICreator.getBaseURI("products/" + randomId);
+		String payload = PayloadFromFile.generatePayload("updateProduct");
+
+		Response response = BaseRequests.putRequest(uri, payload)
+				.then().assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.extract().response();
+
+		LogService.logData(payload, response);
+	}
+
+	@Test
+	public void updateProductWithPatch() {
+		String uri = URICreator.getBaseURI("products/" + randomId);
+		String payload = PayloadFromFile.generatePayload("updateProduct");
+
+		Response response = BaseRequests.patchRequest(uri, payload)
+				.then().assertThat()
+				.statusCode(200)
+				.contentType(ContentType.JSON)
+				.extract().response();
+
+		LogService.logData(payload, response);
+	}
+
 }
