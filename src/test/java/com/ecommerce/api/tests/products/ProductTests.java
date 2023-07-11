@@ -6,10 +6,13 @@ import com.ecommerce.api.tests.utility.URICreator;
 import com.ecommerce.api.tests.utility.payload.PayloadFromFile;
 import com.ecommerce.api.tests.utility.payload.ProductPayloadBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
+
+import java.io.File;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.containsString;
@@ -129,6 +132,18 @@ public class ProductTests {
 				.extract().response();
 
 		LogService.logData(payload, response);
+	}
+
+	@Test
+	public void validateGetProdcutSchema() {
+		String filePath = System.getProperty("user.dir") + "/src/test/resources/schemas/productschema.json";
+		File productJsonSchema = new File(filePath);
+
+		String uri = URICreator.getBaseURI("products/" + randomId);
+		BaseRequests.getByIdRequest(uri)
+				.then()
+				.assertThat()
+				.body(JsonSchemaValidator.matchesJsonSchema(productJsonSchema));
 	}
 
 }
